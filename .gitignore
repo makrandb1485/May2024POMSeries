@@ -40,7 +40,7 @@ out/
 .idea/
 .idea_modules/
 *.iml
-*.ipr
+*.ipra
 *.iws
 ##############################
 ## Eclipse
