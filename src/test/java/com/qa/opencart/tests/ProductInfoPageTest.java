@@ -31,7 +31,7 @@ public class ProductInfoPageTest extends BaseTest{
 	public Object[][] myData() {
 		return new Object[][] {
 			{"macbook", "MacBook Air", "700"},
-			{"macbook", "MacBook Pro", "801"}
+			{"macbook", "MacBook Pro", "800"}
 		};
 	}
 	
