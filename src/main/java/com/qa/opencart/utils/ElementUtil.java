@@ -48,7 +48,9 @@ public class ElementUtil {
 
 	@Step("entering value : {1} into locator: {0}")
 	public void doSendKeys(By locator, String value) {
-		getElement(locator).sendKeys(value);
+		WebElement element = getElement(locator);
+		element.clear();
+		element.sendKeys(value);
 	}
 	
 	public void doSendKeys(WebElement element, String value) {

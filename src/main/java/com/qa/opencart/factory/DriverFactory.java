@@ -21,12 +21,13 @@ import org.openqa.selenium.safari.SafariDriver;
 import com.qa.opencart.errors.AppError;
 import com.qa.opencart.exceptions.BrowserException;
 import com.qa.opencart.exceptions.FrameworkException;
+import com.qa.opencart.logger.Log;
 
 import io.qameta.allure.Step;
 
 /**
  * 
- * @author naveenautomationlabs
+ * @author 
  *
  */
 public class DriverFactory {
@@ -50,7 +51,8 @@ public class DriverFactory {
 	public WebDriver initDriver(Properties prop) {
 
 		String browserName = prop.getProperty("browser");
-		System.out.println("browser name is : " + browserName);
+		// System.out.println("browser name is : :" + browserName);
+		Log.info(prop.getProperty("testname") + " and browser name is : " + browserName);
 
 		isHighlight = prop.getProperty("highlight");
 
@@ -90,7 +92,9 @@ public class DriverFactory {
 			break;
 
 		default:
-			System.out.println(AppError.INVALID_BROWSER_MESG + browserName + " is invalid");
+			// System.out.println(AppError.INVALID_BROWSER_MESG + browserName + " is
+			// invalid");
+			Log.error(AppError.INVALID_BROWSER_MESG + browserName + " is invalid");
 			throw new BrowserException(AppError.INVALID_BROWSER_MESG);
 		}
 
@@ -102,9 +106,9 @@ public class DriverFactory {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private void init_remoteDriver(String browserName) {
-		System.out.println("running tests on grid with browser : " + browserName);
+		// System.out.println("running tests on grid with browser : " + browserName);
+		Log.info("running tests on grid with browser: " + browserName);
 
 		try {
 
@@ -154,11 +158,13 @@ public class DriverFactory {
 		FileInputStream ip = null;
 
 		String envName = System.getProperty("env");
-		System.out.println("running tests on env: " + envName);
+		// System.out.println("running tests on env: " + envName);
+		Log.info("Running tests on env:  " + envName);
 
 		try {
 			if (envName == null) {
-				System.out.println("env is null....hence running tests on QA env");
+				// System.out.println("env is null....hence running tests on QA env");
+				Log.warn("env is null....hence running tests on QA env");
 				ip = new FileInputStream("./src/test/resources/config/qa.config.properties");
 			} else {
 				switch (envName.toLowerCase().trim()) {
@@ -179,7 +185,8 @@ public class DriverFactory {
 					break;
 
 				default:
-					System.out.println("plz pass the right env name..." + envName);
+					// System.out.println("plz pass the right env name..." + envName);
+					Log.error("plz pass the right env name..." + envName);
 					throw new FrameworkException("INVALID ENV NAME");
 				}
 			}

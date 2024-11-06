@@ -2,6 +2,7 @@ package com.qa.opencart.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.qa.opencart.constants.AppConstants;
 import com.qa.opencart.utils.ElementUtil;
@@ -19,6 +20,7 @@ public class LoginPage {
 	private By forgotPwdLink = By.linkText("Forgotten Password");
 	private By registerLink = By.linkText("Register");
 	private By logo = By.cssSelector("img.img-responsive");
+	private By loginErrorMessg = By.cssSelector("div.alert.alert-danger.alert-dismissible");
 
 	// 2. Public Page Const...
 	public LoginPage(WebDriver driver) {
@@ -58,6 +60,23 @@ public class LoginPage {
 		eleUtil.doSendKeys(password, pwd);
 		eleUtil.doClick(loginBtn);
 		return new AccountsPage(driver);	
+	}
+	
+	@Step("login with username : {0} and password: {1}")
+	public boolean doInvalidLogin(String userName, String pwd) {
+		System.out.println("Invalid creds are: " + userName + " : " + pwd);
+		
+		WebElement usernameElement = eleUtil.waitForElementVisible(username, AppConstants.DEFAULT_MEDIUM_TIME_OUT);
+		eleUtil.doSendKeys(usernameElement, userName);
+		eleUtil.doSendKeys(password, pwd);
+		eleUtil.doClick(loginBtn);
+		String errorMesg = eleUtil.waitForElementVisible(loginErrorMessg, AppConstants.DEFAULT_SHORT_TIME_OUT)
+				.getText();
+		System.out.println("Login error --->" + errorMesg);
+		if (errorMesg.contains(AppConstants.LOGIN_ERROR_MESSAGE)) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Step("navigating to regiter page")

@@ -35,22 +35,21 @@ public class BaseTest {
 	@Step("Setup with browser : {0} and init the propeties")
 	@Parameters({"browser", "browserversion", "testname"})
 	@BeforeTest
-	public void setup(@Optional("chrome") String browserName, String browserVersion, String testName) {
+	public void setup(@Optional String browserName, @Optional String browserVersion, @Optional String testName) {
 		df = new DriverFactory();
-		prop = df.initProp();		
+		prop = df.initProp();
 
-			//check if browser param is coming from testng.xml
-			if(browserName!=null) {
-				prop.setProperty("browser", browserName);
-				prop.setProperty("browserversion", browserVersion);
-				prop.setProperty("testname", testName);
+		// check if browser param is coming from testng.xml
+		if (browserName != null) {
+			prop.setProperty("browser", browserName);
+			prop.setProperty("browserversion", browserVersion);
+			prop.setProperty("testname", testName);
 
-			}
-		
-		
+		}
+
 		driver = df.initDriver(prop);
 		loginPage = new LoginPage(driver);
-		//softAssert = new SoftAssert();
+		// softAssert = new SoftAssert();
 	}
 	
 	@Step("close the browser")
@@ -58,6 +57,38 @@ public class BaseTest {
 	public void tearDown() {
 		driver.quit();
 	}
+	
+//	@AfterSuite
+//	public void openHtmlReport() {
+//		// extent html report
+//		try {
+//			File htmlFile = new File("reports/TestExecutionReport.html");
+//			if (htmlFile.exists()) {
+//				Desktop.getDesktop().browse(htmlFile.toURI());
+//			} else {
+//				System.out.println("Report file not found: " + htmlFile.getAbsolutePath());
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		// allure
+//		try {
+//			// Serve the Allure report
+//			ProcessBuilder builder = new ProcessBuilder("/usr/local/bin/allure", "serve", "allure-results");
+//			builder.inheritIO();
+//			Process process = builder.start();
+//			process.waitFor();
+//
+//			// The `allure serve` command automatically opens the report in a browser.
+//			System.out.println("Allure report served successfully.");
+//
+//		} catch (IOException | InterruptedException e) {
+//			e.printStackTrace();
+//			System.out.println("Failed to serve Allure report.");
+//		}
+//
+//	}
 	
 
 }
